@@ -1,0 +1,46 @@
+/*
+ * main.c
+ *
+ *  Created on: May 4, 2026
+ *      Author: Nathan
+ */
+
+//AXI GPIO driver
+#include "xgpio.h"
+
+//send data over UART
+#include "xil_printf.h"
+
+//information about AXI peripherals
+#include "xparameters.h"
+
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+
+int main()
+{
+	char buffer[20];
+	char *c;
+	int a, b;
+
+	while(1) {
+		xil_printf("Enter Expression: \n");
+		if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+			continue;
+		}
+		c = strchr(buffer, "*");
+		if (star == NULL) {
+			xil_printf("Invalid Expression\n");
+		}
+		xil_printf("%c", c);
+		buffer[i] = c;
+		if (c == '\n' || c == '\r') {
+			buffer[i+1] = '\0';
+			break;
+		}
+		i++;
+	}
+	xil_printf("Buffer: %s\n", buffer);
+	return 0;
+}

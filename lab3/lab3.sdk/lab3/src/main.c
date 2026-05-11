@@ -15,36 +15,56 @@
 #include "xparameters.h"
 
 #include <stdio.h>
-
-//int main()
-//{
-//	XGpio gpio;
-//	u32 btn, led;
-//
-//	XGpio_Initialize(&gpio, 0);
-//
-//	XGpio_SetDataDirection(&gpio, 2, 0x00000000); // set LED GPIO channel tristates to All Output
-//	XGpio_SetDataDirection(&gpio, 1, 0xFFFFFFFF); // set BTN GPIO channel tristates to All Input
-//
-//	while (1)
-//	{
-//		btn = XGpio_DiscreteRead(&gpio, 1);
-//
-//		if (btn != 0) // turn all LEDs on when any button is pressed
-//			led = 0xFFFFFFFF;
-//		else
-//			led = 0x00000000;
-//
-//		XGpio_DiscreteWrite(&gpio, 2, led);
-//
-//		xil_printf("\rbutton state: %08x", btn);
-//	}
-//}
+#include <stdlib.h>
+#include <string.h>
 
 int main()
 {
+	XGpio gpio;
+	u32 led;
+
+	XGpio_Initialize(&gpio, 0);
+
+	XGpio_SetDataDirection(&gpio, 2, 0x00000000);
+	char buffer[20];
+	char *delimiter;
 	int a, b;
+	int i;
 	char c;
 
-	xil_printf("Hello World!\n");
+	while(1) {
+		xil_printf("Enter Expression: ");
+		i = 0;
+		while (1) {
+			c = inbyte();
+			outbyte(c);
+
+			if (c == '\r' || c == '\n') {
+				buffer[i] = '\0';
+				break;
+			}
+			if (i < sizeof(buffer) - 1) {
+				buffer[i] = c;
+				i++;
+			}
+		}
+		xil_printf("\r\n");
+		delimiter = strchr(buffer, '*');
+		if (delimiter == NULL) {
+			xil_printf("Invalid Expression\r\n");
+		}
+		*delimiter = '\0';
+		a = atoi(buffer);
+		b = atoi(delimiter + 1);
+		xil_printf("Result: %d\r\n", a*b);
+		if (a*b > 100) {
+			led = 0x00000001;
+		} else {
+			led = 0x00000000;
+		}
+		XGpio_DiscreteWrite(&gpio, 2, led);
+	}
+
+
+	return 0;
 }

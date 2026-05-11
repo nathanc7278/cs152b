@@ -24,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/Users/Nathan Chen/Desktop/cs152b/cs152b/lab3/lab3.runs/part1_hello_world_dlmb_bram_if_cntlr_0_synth_1'
+HD_PWD='C:/Users/Nathan/Desktop/cs152b/cs152b/lab3/lab3.runs/part1_hello_world_dlmb_bram_if_cntlr_0_synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

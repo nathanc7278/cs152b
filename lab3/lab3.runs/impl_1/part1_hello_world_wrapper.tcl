@@ -69,15 +69,16 @@ set rc [catch {
   set_property board_part digilentinc.com:basys3:part0:1.2 [current_project]
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
-  set_property webtalk.parent_dir {C:/Users/Nathan Chen/Desktop/cs152b/cs152b/lab3/lab3.cache/wt} [current_project]
-  set_property parent.project_path {C:/Users/Nathan Chen/Desktop/cs152b/cs152b/lab3/lab3.xpr} [current_project]
-  set_property ip_output_repo {{C:/Users/Nathan Chen/Desktop/cs152b/cs152b/lab3/lab3.cache/ip}} [current_project]
+  set_property webtalk.parent_dir C:/Users/Nathan/Desktop/cs152b/cs152b/lab3/lab3.cache/wt [current_project]
+  set_property parent.project_path C:/Users/Nathan/Desktop/cs152b/cs152b/lab3/lab3.xpr [current_project]
+  set_property ip_repo_paths C:/Users/Nathan/Downloads/vivado-library-2018.2-1 [current_project]
+  set_property ip_output_repo C:/Users/Nathan/Desktop/cs152b/cs152b/lab3/lab3.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
   set_property XPM_LIBRARIES {XPM_CDC XPM_MEMORY} [current_project]
-  add_files -quiet {{C:/Users/Nathan Chen/Desktop/cs152b/cs152b/lab3/lab3.runs/synth_1/part1_hello_world_wrapper.dcp}}
+  add_files -quiet C:/Users/Nathan/Desktop/cs152b/cs152b/lab3/lab3.runs/synth_1/part1_hello_world_wrapper.dcp
   set_msg_config -source 4 -id {BD 41-1661} -limit 0
   set_param project.isImplRun true
-  add_files {{C:/Users/Nathan Chen/Desktop/cs152b/cs152b/lab3/lab3.srcs/sources_1/bd/part1_hello_world/part1_hello_world.bd}}
+  add_files C:/Users/Nathan/Desktop/cs152b/cs152b/lab3/lab3.srcs/sources_1/bd/part1_hello_world/part1_hello_world.bd
   set_param project.isImplRun false
   set_param project.isImplRun true
   link_design -top part1_hello_world_wrapper -part xc7a35tcpg236-1

@@ -43,4 +43,7 @@ set_property DONT_TOUCH TRUE [get_cells -hier -filter {REF_NAME==part1_hello_wor
 # IP: bd/part1_hello_world/ip/part1_hello_world_lmb_bram_0/part1_hello_world_lmb_bram_0.xci
 set_property DONT_TOUCH TRUE [get_cells -hier -filter {REF_NAME==part1_hello_world_lmb_bram_0 || ORIG_REF_NAME==part1_hello_world_lmb_bram_0} -quiet] -quiet
 
+# IP: bd/part1_hello_world/ip/part1_hello_world_PmodKYPD_0_0/part1_hello_world_PmodKYPD_0_0.xci
+set_property DONT_TOUCH TRUE [get_cells -hier -filter {REF_NAME==part1_hello_world_PmodKYPD_0_0 || ORIG_REF_NAME==part1_hello_world_PmodKYPD_0_0} -quiet] -quiet
+
 # XDC: bd/part1_hello_world/part1_hello_world_ooc.xdc

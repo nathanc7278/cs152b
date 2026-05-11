@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1777917655">
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1778521598">
   <File Type="BITSTR-BMM" Name="part1_hello_world_wrapper_bd.bmm"/>
   <File Type="OPT-METHODOLOGY-DRC" Name="part1_hello_world_wrapper_methodology_drc_opted.rpt"/>
   <File Type="INIT-TIMING" Name="part1_hello_world_wrapper_timing_summary_init.rpt"/>
@@ -123,4 +123,5 @@
   <BlockFileSet Type="BlockSrcs" Name="part1_hello_world_mdm_1_0"/>
   <BlockFileSet Type="BlockSrcs" Name="part1_hello_world_xbar_0"/>
   <BlockFileSet Type="BlockSrcs" Name="part1_hello_world_lmb_bram_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="part1_hello_world_PmodKYPD_0_0"/>
 </GenRun>

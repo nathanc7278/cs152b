@@ -2,11 +2,11 @@
 # Vivado v2018.2.2 (64-bit)
 # SW Build 2348494 on Mon Oct  1 18:25:44 MDT 2018
 # IP Build 2318053 on Mon Oct  1 21:44:26 MDT 2018
-# Start of session at: Mon May  4 11:02:49 2026
-# Process ID: 5084
-# Current directory: C:/Users/Nathan Chen/Desktop/cs152b/cs152b/lab3/lab3.runs/synth_1
+# Start of session at: Mon May 11 10:47:56 2026
+# Process ID: 6884
+# Current directory: C:/Users/Nathan/Desktop/cs152b/cs152b/lab3/lab3.runs/synth_1
 # Command line: vivado.exe -log part1_hello_world_wrapper.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source part1_hello_world_wrapper.tcl
-# Log file: C:/Users/Nathan Chen/Desktop/cs152b/cs152b/lab3/lab3.runs/synth_1/part1_hello_world_wrapper.vds
-# Journal file: C:/Users/Nathan Chen/Desktop/cs152b/cs152b/lab3/lab3.runs/synth_1\vivado.jou
+# Log file: C:/Users/Nathan/Desktop/cs152b/cs152b/lab3/lab3.runs/synth_1/part1_hello_world_wrapper.vds
+# Journal file: C:/Users/Nathan/Desktop/cs152b/cs152b/lab3/lab3.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
 source part1_hello_world_wrapper.tcl -notrace

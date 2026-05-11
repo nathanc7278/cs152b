@@ -2,10 +2,10 @@
 <Root MajorVersion="0" MinorVersion="36">
   <CompositeFile CompositeFileTopName="part1_hello_world" CanBeSetAsTop="false" CanDisplayChildGraph="true">
     <Description>Composite Fileset</Description>
-    <Generation Name="SYNTHESIS" State="GENERATED" Timestamp="1777917581"/>
-    <Generation Name="IMPLEMENTATION" State="GENERATED" Timestamp="1777917581"/>
-    <Generation Name="SIMULATION" State="GENERATED" Timestamp="1777917581"/>
-    <Generation Name="HW_HANDOFF" State="GENERATED" Timestamp="1777917581"/>
+    <Generation Name="SYNTHESIS" State="GENERATED" Timestamp="1778521593"/>
+    <Generation Name="IMPLEMENTATION" State="GENERATED" Timestamp="1778521593"/>
+    <Generation Name="SIMULATION" State="GENERATED" Timestamp="1778521593"/>
+    <Generation Name="HW_HANDOFF" State="GENERATED" Timestamp="1778521593"/>
     <FileCollection Name="SOURCES" Type="SOURCES">
       <File Name="ip\part1_hello_world_axi_gpio_0_0\part1_hello_world_axi_gpio_0_0.xci" Type="IP">
         <Instance HierarchyPath="axi_gpio_0"/>
@@ -120,6 +120,14 @@
       <File Name="sim\part1_hello_world.v" Type="Verilog">
         <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="false" IsStatusTracked="false"/>
         <Library Name="xil_defaultlib"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip\part1_hello_world_PmodKYPD_0_0\part1_hello_world_PmodKYPD_0_0.xci" Type="IP">
+        <Instance HierarchyPath="PmodKYPD_0"/>
+        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
+        <Library Name="xil_defaultlib"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
         <UsedIn Val="SIMULATION"/>
       </File>
       <File Name="part1_hello_world.bmm" Type="BMM">
