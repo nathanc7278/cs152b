@@ -1,6 +1,21 @@
-10:13:35 **** Incremental Build of configuration Debug for project lab3 ****
+10:52:38 **** Auto Build of configuration Debug for project lab3 ****
 make all 
-make: Nothing to be done for `all'.
+'Building file: ../src/main.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/main.o" -I../../lab3_bsp/microblaze_0/include -mlittle-endian -mcpu=v10.0 -mxl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+'Finished building: ../src/main.c'
+' '
+'Building target: lab3.elf'
+'Invoking: MicroBlaze gcc linker'
+mb-gcc -Wl,-T -Wl,../src/lscript.ld -L../../lab3_bsp/microblaze_0/lib -mlittle-endian -mcpu=v10.0 -mxl-soft-mul -Wl,--no-relax -Wl,--gc-sections -o "lab3.elf"  ./src/main.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: lab3.elf'
+' '
+'Invoking: MicroBlaze Print Size'
+mb-size lab3.elf  |tee "lab3.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+   8536	    292	   3116	  11944	   2ea8	lab3.elf
+'Finished building: lab3.elf.size'
+' '
 
-10:13:36 Build Finished (took 153ms)
+10:52:40 Build Finished (took 1s.865ms)
 

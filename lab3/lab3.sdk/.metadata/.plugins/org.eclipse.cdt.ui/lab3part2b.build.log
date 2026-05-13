@@ -1,0 +1,21 @@
+10:13:09 **** Auto Build of configuration Debug for project lab3part2b ****
+make all 
+'Building file: ../src/main.c'
+'Invoking: MicroBlaze gcc compiler'
+mb-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/main.o" -I../../lab3part2b_bsp/microblaze_0/include -mlittle-endian -mcpu=v10.0 -mxl-soft-mul -Wl,--no-relax -ffunction-sections -fdata-sections -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+'Finished building: ../src/main.c'
+' '
+'Building target: lab3part2b.elf'
+'Invoking: MicroBlaze gcc linker'
+mb-gcc -Wl,-T -Wl,../src/lscript.ld -L../../lab3part2b_bsp/microblaze_0/lib -mlittle-endian -mcpu=v10.0 -mxl-soft-mul -Wl,--no-relax -Wl,--gc-sections -o "lab3part2b.elf"  ./src/main.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: lab3part2b.elf'
+' '
+'Invoking: MicroBlaze Print Size'
+mb-size lab3part2b.elf  |tee "lab3part2b.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+   7144	    272	   3128	  10544	   2930	lab3part2b.elf
+'Finished building: lab3part2b.elf.size'
+' '
+
+10:13:10 Build Finished (took 924ms)
+

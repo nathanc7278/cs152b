@@ -1,0 +1,70 @@
+/*
+ * main.c
+ *
+ *  Created on: May 11, 2026
+ *      Author: Nathan, Jack
+ */
+
+//AXI GPIO driver
+#include "xgpio.h"
+
+//send data over UART
+#include "xil_printf.h"
+
+//information about AXI peripherals
+#include "xparameters.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+	XGpio gpio;
+	u32 led;
+
+	XGpio_Initialize(&gpio, 0);
+
+	XGpio_SetDataDirection(&gpio, 2, 0x00000000);
+	char buffer[20];
+	char *delimiter;
+	int a, b;
+	int i;
+	char c;
+
+	while(1) {
+		xil_printf("Enter Expression: ");
+		i = 0;
+		while (1) {
+			c = inbyte();
+			outbyte(c);
+
+			if (c == '\r' || c == '\n') {
+				buffer[i] = '\0';
+				break;
+			}
+			if (i < sizeof(buffer) - 1) {
+				buffer[i] = c;
+				i++;
+			}
+		}
+		xil_printf("\r\n");
+		delimiter = strchr(buffer, '*');
+		if (delimiter == NULL) {
+			xil_printf("Invalid Expression\r\n");
+		}
+		*delimiter = '\0';
+		a = atoi(buffer);
+		b = atoi(delimiter + 1);
+		xil_printf("Result: %d\r\n", a*b);
+		if (a*b > 100) {
+			led = 0x00000001;
+		} else {
+			led = 0x00000000;
+		}
+		XGpio_DiscreteWrite(&gpio, 2, led);
+	}
+
+
+	return 0;
+}

@@ -1,0 +1,26 @@
+#include "xgpio.h"
+
+#include "xil_printf.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "xparameters.h"
+#include "PmodKYPD.h"
+
+PmodKYPD keypad;
+#define DEFAULT_KEYTABLE "0FED789C456B123A"
+
+int main()
+{
+	KYPD_begin(&keypad, XPAR_PMODKYPD_0_AXI_LITE_GPIO_BASEADDR);
+	KYPD_loadKeyTable(&keypad, (u8*) DEFAULT_KEYTABLE);
+	u16 keystate;
+	XStatus status, last_status = KYPD_NO_KEY;
+	while(1) {
+
+		xil_printf("")
+	}
+
+}

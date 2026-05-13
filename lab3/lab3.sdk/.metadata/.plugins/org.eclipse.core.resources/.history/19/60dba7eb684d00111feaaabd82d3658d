@@ -1,0 +1,79 @@
+#include "xgpio.h"
+
+#include "xil_printf.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "sleep.h"
+
+#include "xparameters.h"
+#include "PmodKYPD.h"
+#include "xil_cache.h"
+
+PmodKYPD keypad;
+#define DEFAULT_KEYTABLE "0FED789C456B123A"
+
+void DisableCaches();
+void EnableCaches();
+
+int main()
+{
+	EnableCaches();
+	KYPD_begin(&keypad, XPAR_PMODKYPD_0_AXI_LITE_GPIO_BASEADDR);
+	KYPD_loadKeyTable(&keypad, (u8*) DEFAULT_KEYTABLE);
+	u16 keystate;
+	XStatus status, last_status = KYPD_NO_KEY;
+	u8 key, last_key = 'x';
+	char pc_input;
+
+	Xil_Out32(keypad.GPIO_addr, 0xF);
+
+
+	while(1) {
+		xil_printf("PC Terminal Input (1 is Rock, 2 is Paper, 3 is Scissors:\r\n");
+		pc_input = inbyte();
+		outbyte(pc_input);
+		while(1) {
+			xil_printf("Keypad Input:\r\n");
+			keystate = KYPD_getKeyStates(&keypad);
+			status = KYPD_getKeyPressed(&keypad, keystate, &key);
+			if (status == KYPD_SINGLE_KEY
+				&& (status != last_status || key != last_key)) {
+				xil_printf("Key Pressed: %c\r\n", (char) key);
+				last_key = key;
+			} else if (status == KYPD_MULTI_KEY && status != last_status)
+				xil_printf("Error: Multiple keys pressed\r\n");
+
+			last_status = status;
+			usleep(1000);
+		}
+
+	}
+
+	DisableCaches();
+	return 0;
+}
+
+
+void EnableCaches() {
+#ifdef __MICROBLAZE__
+#ifdef XPAR_MICROBLAZE_USE_ICACHE
+   Xil_ICacheEnable();
+#endif
+#ifdef XPAR_MICROBLAZE_USE_DCACHE
+   Xil_DCacheEnable();
+#endif
+#endif
+}
+
+void DisableCaches() {
+#ifdef __MICROBLAZE__
+#ifdef XPAR_MICROBLAZE_USE_DCACHE
+   Xil_DCacheDisable();
+#endif
+#ifdef XPAR_MICROBLAZE_USE_ICACHE
+   Xil_ICacheDisable();
+#endif
+#endif
+}
