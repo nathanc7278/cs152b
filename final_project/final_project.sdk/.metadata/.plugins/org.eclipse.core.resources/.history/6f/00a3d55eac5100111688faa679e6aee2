@@ -1,0 +1,16 @@
+#include "xil_printf.h"
+#include "cnn.h"
+#include <string.h>
+
+int main() {
+    signed char test_image[784];
+    memset(test_image, 0, 784);
+
+    xil_printf("Running inference...\r\n");
+
+    int result = infer(test_image);
+
+    xil_printf("Predicted digit: %d\r\n", result);
+
+    return 0;
+}

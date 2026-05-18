@@ -1,0 +1,12 @@
+#include "xil_printf.h"
+#include "xparameters.h"
+#include "cnn.h"
+#include <string.h>
+#include "test_images.h"
+
+int main()
+{
+	int result = infer((signed char *)test_image);
+	xil_printf("FPGA: %d\r\n", result);
+	return 0;
+}

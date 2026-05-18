@@ -52,25 +52,26 @@ int main()
 				xil_printf("Error: Multiple keys pressed\r\n");
 			usleep(1000);
 		}
+		if ((char) key == (char) pc_input)
+		{
+			xil_printf("Tie!\r\n");
+		}
+		else if (((char) key == '1' && (char) pc_input == '2') ||
+				 ((char) key == '2' && (char) pc_input == '3') ||
+				 ((char) key == '3' && (char) pc_input == '1')
+				)
+		{
+			xil_printf("PC Terminal Wins!\r\n");
+		}
+		else if (((char) key == '2' && (char) pc_input == '1') ||
+				 ((char) key == '3' && (char) pc_input == '2') ||
+				 ((char) key == '1' && (char) pc_input == '3')
+				)
+		{
+			xil_printf("Keypad Wins!\r\n");
+		}
 	}
-	if ((char) key == (char) pc_input)
-	{
-		xil_printf("Tie!");
-	}
-	else if (((char) key == '1' && (char) pc_input == '2') ||
-			 ((char) key == '2' && (char) pc_input == '3') ||
-			 ((char) key == '3' && (char) pc_input == '1')
-			)
-	{
-		xil_printf("PC Terminal Wins!");
-	}
-	else if (((char) key == '2' && (char) pc_input == '1') ||
-			 ((char) key == '3' && (char) pc_input == '2') ||
-			 ((char) key == '1' && (char) pc_input == '3')
-			)
-	{
-		xil_printf("Keypad Wins!");
-	}
+
 	DisableCaches();
 	return 0;
 }

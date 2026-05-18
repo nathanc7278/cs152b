@@ -1,0 +1,20 @@
+#include "xil_printf.h"
+#include "platform.h"
+#include "cnn.h"
+#include <string.h>
+
+int main() {
+    init_platform();
+
+    signed char test_image[784];
+    memset(test_image, 0, 784);
+
+    while (1) {
+        xil_printf("Running inference...\r\n");
+        int result = infer(test_image);
+        xil_printf("Predicted digit: %d\r\n", result);
+    }
+
+    cleanup_platform();
+    return 0;
+}

@@ -1,0 +1,165 @@
+#include "weights.h"
+#include <string.h>
+#include <math.h>
+
+#define INPUT_H 28
+#define INPUT_W 28
+#define CONV1_OUT 4
+#define CONV2_OUT 8
+#define FC1_OUT 16
+#define FC2_OUT 10
+
+// ReLU for int8 values
+static signed char get_relu(int x) {
+	if (x > 0) {
+		if (x > 127) {
+			return 127;
+		} else {
+			return (signed char) x;
+		}
+	} else {
+		return 0;
+	}
+}
+
+static signed char clamp(int x) {
+	if (x > 127) return 127;
+	if (x < -128) return -128;
+	return (signed char) x;
+}
+
+// padding = 1, stride = 1, 3x3 kernel
+// input [in_ch][H][W]
+// output [out_ch][H][W]
+void conv2d(
+	signed char *input,
+	int H,
+	int W,
+	int in_ch,
+	int out_ch,
+	const signed char *weights,
+	const int32_t *bias,
+	const float *w_scales,
+	float input_scale,
+	float output_scale,
+	signed char *output) {
+
+	for (int oc = 0; oc < out_ch; oc++) {
+		for (int y = 0; y < H; y++) {
+			for (int x = 0; x < W; x++) {
+				int32_t acc = 0;
+				for (int ic = 0; ic < in_ch; ic++) {
+					for (int ky = 0; ky < 3; ky++) {
+						for (int kx = 0; kx < 3; kx++) {
+							int iy = y + ky - 1; // -1 for the padding
+							int ix = x + kx - 1;
+							if (iy < 0 || iy >= H || ix < 0 || ix >= W) {
+								continue;
+							}
+							int w_idx = ((oc * in_ch + ic) * 3 + ky) * 3 + kx;
+							acc += (int32_t)input[(ic)*H*W + (iy)*W + (ix)] * (int32_t)weights[w_idx];
+						}
+					}
+				}
+				acc += bias[oc];
+				output[(oc)*H*W + (y)*W + (x)] = clamp((int32_t)roundf((float)acc * input_scale * w_scales[oc] / output_scale));
+ 			}
+		}
+	}
+}
+
+void relu(signed char *matrix, int ch, int H, int W) {
+	for (int i = 0; i < ch * H * W; i++) {
+		matrix[i] = get_relu(matrix[i]);
+	}
+}
+
+// kernel size = 2
+// input [ch][H][W]
+// output [ch][H/2][W/2]
+void maxpool2d(
+    signed char *input,
+	int ch,
+	int H,
+	int W,
+	signed char *output) {
+
+	for (int c = 0; c < ch; c++) {
+		for (int y = 0; y < H; y+=2) {
+			for (int x = 0; x < W; x+=2){
+				signed char max_value = -128;
+				for (int ky = 0; ky < 2; ky++) {
+					for (int kx = 0; kx < 2; kx++) {
+						signed char value = input[c*H*W + (y+ky)*W + (x + kx)];
+						if (value > max_value) {
+							max_value = value;
+						}
+					}
+				}
+				output[c*(H/2)*(W/2) + (y/2)*(W/2) + (x/2)] = max_value;
+			}
+		}
+	}
+}
+
+void fc(
+    signed char *input,
+	int in_size,
+	int out_size,
+	const signed char *weights,
+	const int32_t *bias,
+	const float *w_scales,
+	float input_scale,
+	float output_scale,
+	signed char *output) {
+
+	for (int o = 0 ; o < out_size; o++) {
+		int32_t acc = 0;
+		for (int i = 0; i < in_size; i++) {
+			acc += (int32_t)input[i] * (int32_t)weights[o * in_size + i];
+		}
+		acc += bias[o];
+		output[o] = clamp((int32_t)roundf((float)acc * input_scale * w_scales[o] / output_scale));
+	}
+}
+
+int infer(signed char flattened_input[784]) {
+	static signed char buf_a[CONV1_OUT*28*28];
+	static signed char buf_b[CONV2_OUT*14*14];
+	static signed char fc1_out[FC1_OUT];
+	static signed char fc2_out[FC2_OUT];
+
+	memcpy(buf_a, flattened_input, 784);
+	conv2d(buf_a, 28, 28, 1, CONV1_OUT, conv1_weight, conv1_bias, conv1_weight_scale, input_scale, conv1_out_scale, buf_b);
+	relu(buf_b, CONV1_OUT, 28, 28);
+	maxpool2d(buf_b, CONV1_OUT, 28, 28, buf_a);
+
+	conv2d(buf_a, 14, 14, CONV1_OUT, CONV2_OUT, conv2_weight, conv2_bias, conv2_weight_scale, conv1_out_scale, conv2_out_scale, buf_b);
+	relu(buf_b, CONV2_OUT, 14, 14);
+	maxpool2d(buf_b, CONV2_OUT, 14, 14, buf_a);
+
+
+	fc(buf_a, CONV2_OUT*7*7, FC1_OUT, fc1_weight, fc1_bias, fc1_weight_scale, conv2_out_scale, fc1_out_scale, fc1_out);
+	relu(fc1_out, 1, FC1_OUT, 1);
+	fc(fc1_out, FC1_OUT, FC2_OUT, fc2_weight, fc2_bias, fc2_weight_scale, fc1_out_scale, fc2_out_scale, fc2_out);
+
+	int best = 0;
+	for (int i = 1; i < FC2_OUT; i++) {
+		if (fc2_out[i] > fc2_out[best]) {
+			best = i;
+		}
+	}
+	return best;
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+#include "xil_printf.h"
+#include "xparameters.h"
+#include "cnn.h"
+#include <string.h>
+#include "test_images.h"
+
+int main()
+{
+
+	int result = infer(test_image);
+	xil_printf("True: %d | Python: %d | FPGA: %d\r\n",
+		(int)true_labels[0],
+		(int)python_preds[0],
+		result
+	);
+	return 0;
+}

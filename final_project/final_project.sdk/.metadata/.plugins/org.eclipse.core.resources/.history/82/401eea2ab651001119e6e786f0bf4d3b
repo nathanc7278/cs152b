@@ -1,0 +1,19 @@
+#include "xil_printf.h"
+#include "xparameters.h"
+#include "cnn.h"
+#include <string.h>
+
+int main()
+{
+    signed char test_image[784];
+    memset(test_image, 0, 784);
+
+    while(1) {
+        xil_printf("1\r\n");
+        int result = infer(test_image);
+        xil_printf("2\r\n");
+        xil_printf("Predicted digit: %d\r\n", result);
+    }
+
+    return 0;
+}

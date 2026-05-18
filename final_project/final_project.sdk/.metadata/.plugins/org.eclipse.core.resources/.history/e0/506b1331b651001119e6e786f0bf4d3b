@@ -1,0 +1,33 @@
+#include "xil_printf.h"
+#include "xparameters.h"
+#include "cnn.h"
+#include <string.h>
+
+int main()
+{
+	int correct = 0;
+
+	xil_printf("Starting inference on %d test images...\r\n", NUM_TEST_IMAGES);
+
+	for (int i = 0; i < NUM_TEST_IMAGES; i++) {
+		int result = infer((signed char *)test_images[i]);
+
+		int true_label  = (int)true_labels[i];
+		int py_pred     = (int)python_preds[i];
+		int match       = (result == true_label);
+
+		if (match) correct++;
+
+		xil_printf("Image %d | True: %d | Python: %d | FPGA: %d | %s\r\n",
+			i,
+			true_label,
+			py_pred,
+			result,
+			match ? "OK" : "WRONG"
+		);
+	}
+
+	xil_printf("\r\nAccuracy: %d / %d correct\r\n", correct, NUM_TEST_IMAGES);
+
+	return 0;
+}
